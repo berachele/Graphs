@@ -13,11 +13,11 @@ world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-map_file = "maps/test_line.txt"
+# map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -45,7 +45,7 @@ visit[player.current_room.id] = player.current_room.get_exits()
 # REPL — while visit is still less than the graph of rooms -1, we’ll do all the steps
 #when len of visit is the length of graph, it will end the loop
 while len(visit) < len(room_graph) - 1:
-    # Step one, check if that current room is in visit
+    # Step 1, check if that current room is in visit
     # If not, 
     print(f'visit list: {visit}')
     if player.current_room.id not in visit:
@@ -60,7 +60,7 @@ while len(visit) < len(room_graph) - 1:
 
     #Step 1/2 -- for when list is empty and need to revert back into the room you just visited
     # means we've been in that room before, now we're moving backwards until we reach a room that hasn't been visited
-    while len(visit[player.current_room.id]) < 1:
+    while len(visit[player.current_room.id]) == 0:
         #create a variable to remove last item from path so we can go that way
         last = go_back_if_needed.pop()
         #add direction into the traversal path
@@ -69,7 +69,7 @@ while len(visit) < len(room_graph) - 1:
         player.travel(last)
 
 
-    #Step two (after each move we need to mark it):
+    #Step 2 (after each move we need to mark it):
     #Create a variable for the first direction in current room--the move we just made
     move_made = visit[player.current_room.id].pop(0)
     print(f'move: {move_made}')

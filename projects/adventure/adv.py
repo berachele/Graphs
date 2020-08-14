@@ -34,12 +34,12 @@ traversal_path = []
 # Fill this out with directions to walk
 
 def graph_traversal(player):
-    # Reverse directions so that each room can be the equivalent the opposites direction room move
-    rev_directions = {"n": "s", "e": "w", "s": "n", "w": "e"}
-    # create a path that is a list to keep track of where to go when we need to reverse our steps
-    go_back_if_needed = []
     # visit dictionary to have rooms as key and directions as value
     visit = {}
+    # create a path that is a list to keep track of where to go when we need to reverse our steps
+    go_back_if_needed = []
+    # Reverse directions so that each room can be the equivalent the opposites direction room move
+    rev_directions = {"n": "s", "e": "w", "s": "n", "w": "e"}
 
     # First add players current room to visited, directions will be the exits (‘neighbors’)
     visit[player.current_room.id] = player.current_room.get_exits()
@@ -49,9 +49,7 @@ def graph_traversal(player):
     while len(visit) < len(room_graph) - 1:
         # Step 1, check if that current room is in visit
         # If not, 
-        print(f'visit list: {visit}')
         if player.current_room.id not in visit:
-            print('not visited')
             # add to visit
             visit[player.current_room.id] = player.current_room.get_exits()
             # Create a variable for the last room/direction in the path
@@ -74,14 +72,10 @@ def graph_traversal(player):
         #Step 2 (after each move we need to mark it):
         #Create a variable for the first direction in current room--the move we just made
         move_made = visit[player.current_room.id].pop(0)
-        print(f'move: {move_made}')
-        print(f'visited after popping: {visit}')
         #Add that variable to traversal path to track where we've gone
         traversal_path.append(move_made)
-        print(f'traversal path: {traversal_path}')
         #add the rooms opposite direction to path (next room to go to) -- so that we can go back if needed
         go_back_if_needed.append(rev_directions[move_made])
-        print(f'revert path: {go_back_if_needed}')
         #let player move through directions
         player.travel(move_made)
     
